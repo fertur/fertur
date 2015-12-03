@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2015 by Rafael Angel Aznar Aparici (rafaaznar at gmail dot com)
  * 
  * openAUSIAS: The stunning micro-library that helps you to develop easily 
@@ -25,10 +25,21 @@
  * THE SOFTWARE.
  * 
  */
+package net.daw.dao.specific.implementation;
 
-var articuloView = function () {
+import java.sql.Connection;
+import net.daw.bean.specific.implementation.BlogBean;
+import net.daw.bean.specific.implementation.ComentarioBean;
+import net.daw.dao.generic.implementation.TableDaoGenImpl;
+
+/**
+ *
+ * @author Downland
+ */
+public class BlogDao extends TableDaoGenImpl<BlogBean> {
+
+    public BlogDao(Connection pooledConnection) throws Exception {
+        super(pooledConnection);
+    }
     
-};
-articuloView.prototype = new viewModule();
-articuloView.prototype.getViewTemplate_func = function (strClass, jsonDataViewModule) {
-    };
+}

@@ -25,7 +25,7 @@
  * THE SOFTWARE.
  * 
  */
-function fArticuloRoutes() {
+function fBlogRoutes() {
     var icon = '<i class="fa fa-file-text-o fa-5x"></i>';
     var fillDocumentoPageHeader = _.partial(html.getPageHeader, icon, 'Articulo', _);
     var strClass = 'documento';
@@ -67,7 +67,6 @@ function fArticuloRoutes() {
         ausiasFLOW.initialize(articuloView, content, strClass, 'view', strParam);
         return false;
     });
-
 
 }
 

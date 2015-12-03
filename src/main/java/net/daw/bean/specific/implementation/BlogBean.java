@@ -29,45 +29,26 @@ package net.daw.bean.specific.implementation;
 
 import com.google.gson.annotations.Expose;
 import java.util.Date;
+import net.daw.bean.generic.implementation.BeanGenImpl;
 import net.daw.bean.group.GroupBeanImpl;
+import net.daw.bean.publicinterface.BeanInterface;
 import net.daw.helper.annotations.MethodMetaInformation;
+import net.daw.helper.annotations.SelectSourceMetaInformation;
 import net.daw.helper.statics.MetaEnum;
 
 /**
  *
  * @author Downland
  */
-public class BlogBean {
 
-    public BlogBean() {
-        this.id = 0;
-    }
+@SelectSourceMetaInformation( 
+        SqlSelect = "SELECT d.id id_documento, d.titulo, d.contenido entrada, d.etiquetas, d.hits,c.id id_comentario, c.contenido comentario, c.nombreautor, d.alta, cat.id id_categoria, cat.nombre nombre_cat, cat.descripcion descripcion_cat FROM documento d, comentario c, documentocategoriaarticulo dca, categoriaarticulo cat WHERE d.id = c.id_documento AND dca.id_categoriaarticulo= cat.id AND d.id = dca.id_documento",
+        Description = "Articulo"
+)
 
-    public BlogBean(Integer id) {
-        this.id = id;
-    }
-    @Expose
-    @MethodMetaInformation(
-            IsId = true,
-            UltraShortName = "Iden.",
-            ShortName = "Identif.",
-            Description = "Número Identificador",
-            Type = MetaEnum.FieldType.Integer,
-            DefaultValue = "0"
-    )
-    private Integer id = 0; //siempre inicializar los id a 0
+public class BlogBean extends BeanGenImpl implements BeanInterface {
 
-    @Expose
-    @MethodMetaInformation(
-            IsId = true,
-            UltraShortName = "Iden.",
-            ShortName = "Identif.",
-            Description = "Número Identificador",
-            Type = MetaEnum.FieldType.Integer,
-            DefaultValue = "0"
-    )
-    private Integer id_categoria = 0; //siempre inicializar los id a 0
-
+    //DOCUMENTO
     @Expose
     @MethodMetaInformation(
             IsId = true,
@@ -78,29 +59,6 @@ public class BlogBean {
             DefaultValue = "0"
     )
     private Integer id_documento;
-
-    @Expose(serialize = false)
-    @MethodMetaInformation(
-            UltraShortName = "Iden. Preg",
-            ShortName = "Iden. de Pregunta",
-            Description = "Identificador de Pregunta",
-            IsIdForeignKey = true,
-            ReferencesTable = "pregunta",
-            Type = MetaEnum.FieldType.Integer
-    )
-    private Integer id_comentario = 0;
-    
-         
-    @Expose(deserialize = false)
-    @MethodMetaInformation(
-            UltraShortName = "Iden. Com.",
-            ShortName = "Iden. de comentario",
-            Description = "Identificador de comentario",
-            IsObjForeignKey = true,
-            ReferencesTable = "comentario",
-            MyIdName = "id_comentario"
-    )
-    private GroupBeanImpl obj_comentario = null;
 
     @Expose
     @MethodMetaInformation(
@@ -114,15 +72,6 @@ public class BlogBean {
             IsForeignKeyDescriptor = true
     )
     private String titulo_doc = "";
-
-    @Expose
-    @MethodMetaInformation(
-            UltraShortName = "Nom.",
-            ShortName = "Nombre",
-            Description = "Nombre de la categoría",
-            Type = MetaEnum.FieldType.String
-    )
-    private String nombre_cat;
 
     @Expose
     @MethodMetaInformation(
@@ -167,7 +116,62 @@ public class BlogBean {
             DefaultValue = ""
     )
     private String etiquetas_doc = "";
-    
+
+    //CATEGORÍA
+    @Expose(serialize = false)
+    @MethodMetaInformation(
+            UltraShortName = "Iden. Cat",
+            ShortName = "Iden. de Categoría",
+            Description = "Identificador de Categoría",
+            IsIdForeignKey = true,
+            ReferencesTable = "categoria",
+            Type = MetaEnum.FieldType.Integer
+    )
+    private Integer id_categoria = 0;
+
+    @Expose(deserialize = false)
+    @MethodMetaInformation(
+            UltraShortName = "Iden. Cat",
+            ShortName = "Iden. de Categoría",
+            Description = "Identificador de Categoría",
+            IsObjForeignKey = true,
+            ReferencesTable = "categoria",
+            MyIdName = "id_categoria"
+    )
+    private GroupBeanImpl obj_categoria = null;
+
+    @Expose
+    @MethodMetaInformation(
+            UltraShortName = "Nom.",
+            ShortName = "Nombre",
+            Description = "Nombre de la categoría",
+            Type = MetaEnum.FieldType.String
+    )
+    private String nombre_cat;
+
+    //COMENTARIO
+    @Expose(serialize = false)
+    @MethodMetaInformation(
+            UltraShortName = "Iden. Com.",
+            ShortName = "Iden. de Comentario",
+            Description = "Identificador de Comentario",
+            IsIdForeignKey = true,
+            ReferencesTable = "v",
+            Type = MetaEnum.FieldType.Integer
+    )
+    private Integer id_comentario = 0;
+
+    @Expose(deserialize = false)
+    @MethodMetaInformation(
+            UltraShortName = "Iden. Com.",
+            ShortName = "Iden. de Comentario",
+            Description = "Identificador de Comentario",
+            IsObjForeignKey = true,
+            ReferencesTable = "comentario",
+            MyIdName = "id_comentario"
+    )
+    private GroupBeanImpl obj_comentario = null;
+
     @Expose
     @MethodMetaInformation(
             UltraShortName = "Cont.",
@@ -176,7 +180,7 @@ public class BlogBean {
             Type = MetaEnum.FieldType.String
     )
     private String comentario;
-    
+
     @Expose
     @MethodMetaInformation(
             UltraShortName = "NomAut.",
@@ -185,18 +189,109 @@ public class BlogBean {
             Type = MetaEnum.FieldType.String
     )
     private String autor_com;
-    
-    @Expose(deserialize = false)
-    @MethodMetaInformation(
-            UltraShortName = "Documento",
-            ShortName = "Documento",
-            Description = "Referencia al documento",
-            IsObjForeignKey = true,
-            ReferencesTable = "documento",
-            MyIdName = "id_documento"
-    )
-    private GroupBeanImpl obj_documento = null;
-    
-    
+
+    public Integer getId_documento() {
+        return id_documento;
+    }
+
+    public void setId_documento(Integer id_documento) {
+        this.id_documento = id_documento;
+    }
+
+    public String getTitulo_doc() {
+        return titulo_doc;
+    }
+
+    public void setTitulo_doc(String titulo_doc) {
+        this.titulo_doc = titulo_doc;
+    }
+
+    public String getContenido_doc() {
+        return contenido_doc;
+    }
+
+    public void setContenido_doc(String contenido_doc) {
+        this.contenido_doc = contenido_doc;
+    }
+
+    public Date getAlta_doc() {
+        return alta_doc;
+    }
+
+    public void setAlta_doc(Date alta_doc) {
+        this.alta_doc = alta_doc;
+    }
+
+    public Integer getHits_doc() {
+        return hits_doc;
+    }
+
+    public void setHits_doc(Integer hits_doc) {
+        this.hits_doc = hits_doc;
+    }
+
+    public String getEtiquetas_doc() {
+        return etiquetas_doc;
+    }
+
+    public void setEtiquetas_doc(String etiquetas_doc) {
+        this.etiquetas_doc = etiquetas_doc;
+    }
+
+    public Integer getId_categoria() {
+        return id_categoria;
+    }
+
+    public void setId_categoria(Integer id_categoria) {
+        this.id_categoria = id_categoria;
+    }
+
+    public GroupBeanImpl getObj_categoria() {
+        return obj_categoria;
+    }
+
+    public void setObj_categoria(GroupBeanImpl obj_categoria) {
+        this.obj_categoria = obj_categoria;
+    }
+
+    public String getNombre_cat() {
+        return nombre_cat;
+    }
+
+    public void setNombre_cat(String nombre_cat) {
+        this.nombre_cat = nombre_cat;
+    }
+
+    public Integer getId_comentario() {
+        return id_comentario;
+    }
+
+    public void setId_comentario(Integer id_comentario) {
+        this.id_comentario = id_comentario;
+    }
+
+    public GroupBeanImpl getObj_comentario() {
+        return obj_comentario;
+    }
+
+    public void setObj_comentario(GroupBeanImpl obj_comentario) {
+        this.obj_comentario = obj_comentario;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public String getAutor_com() {
+        return autor_com;
+    }
+
+    public void setAutor_com(String autor_com) {
+        this.autor_com = autor_com;
+    }
 
 }
