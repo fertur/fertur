@@ -29,8 +29,27 @@
 var articuloNew = function () {
 };
 articuloNew.prototype = new newModule();
-articuloNew.prototype.doEventsLoading = function () {
-//    form.getForeign('documento', 'usuario');
-//    form.getForeign('documento', 'tipodocumento');
+ 
+//documentohiloNew.prototype.doEventsLoading = function () {
+    articuloNew.prototype.render = function () {
+    if (jsonData.status == "200") {
+     jsonData_filtered = _.filter(jsonData.message, function(oItem){
+        if (oItem.Name=="titulo" || oItem.Name=="contenido" || oItem.Name=="etiquetas" || oItem.Name=="alta"|| oItem.Name =="obj_tipodocumento") {
+            return true;
+        } else {
+            return false;
+        }
+    } );
+            return form.getFormTemplate(strClass, jsonData_filtered);
+    } else {
+        return util.notifyException(jsonData.status, jsonData.message);
+    }
+    
+};
+
+
+ articuloNew.prototype.doEventsLoading = function () {
+   form.getForeign('documento','usuario');
+   form.getForeign('documento','tipodocumento');       
 };
 
