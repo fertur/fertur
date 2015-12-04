@@ -40,10 +40,9 @@ import net.daw.helper.statics.MetaEnum;
  *
  * @author Downland
  */
-
-@SelectSourceMetaInformation( 
+@SelectSourceMetaInformation(
         SqlSelect = "SELECT d.id id_documento, d.titulo, d.contenido entrada, d.etiquetas, d.hits,c.id id_comentario, c.contenido comentario, c.nombreautor, d.alta, cat.id id_categoria, cat.nombre nombre_cat, cat.descripcion descripcion_cat FROM documento d, comentario c, documentocategoriaarticulo dca, categoriaarticulo cat WHERE d.id = c.id_documento AND dca.id_categoriaarticulo= cat.id AND d.id = dca.id_documento",
-        Description = "Articulo"
+        Description = "Documento"
 )
 
 public class BlogBean extends BeanGenImpl implements BeanInterface {
@@ -58,7 +57,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             Type = MetaEnum.FieldType.Integer,
             DefaultValue = "0"
     )
-    private Integer id_documento;
+    private Integer id_documento = 0;
 
     @Expose
     @MethodMetaInformation(
@@ -71,7 +70,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             DefaultValue = "Sin título",
             IsForeignKeyDescriptor = true
     )
-    private String titulo_doc = "";
+    private String titulo = "";
 
     @Expose
     @MethodMetaInformation(
@@ -83,7 +82,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             MaxLength = 999999999,
             DefaultValue = "Sin contenido"
     )
-    private String contenido_doc = "";
+    private String entrada = "";
 
     @Expose
     @MethodMetaInformation(
@@ -94,7 +93,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             DefaultValue = "01/01/2000",
             IsForeignKeyDescriptor = true
     )
-    private Date alta_doc = new Date();
+    private Date alta = new Date();
 
     @Expose
     @MethodMetaInformation(
@@ -103,7 +102,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             Description = "Número de visitas del documento",
             Type = MetaEnum.FieldType.Integer
     )
-    private Integer hits_doc = 0;
+    private Integer hits = 0;
 
     @Expose
     @MethodMetaInformation(
@@ -115,7 +114,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             MaxLength = 255,
             DefaultValue = ""
     )
-    private String etiquetas_doc = "";
+    private String etiquetas = "";
 
     //CATEGORÍA
     @Expose(serialize = false)
@@ -124,7 +123,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             ShortName = "Iden. de Categoría",
             Description = "Identificador de Categoría",
             IsIdForeignKey = true,
-            ReferencesTable = "categoria",
+            ReferencesTable = "categoriaarticulo",
             Type = MetaEnum.FieldType.Integer
     )
     private Integer id_categoria = 0;
@@ -135,7 +134,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             ShortName = "Iden. de Categoría",
             Description = "Identificador de Categoría",
             IsObjForeignKey = true,
-            ReferencesTable = "categoria",
+            ReferencesTable = "categoriaarticulo",
             MyIdName = "id_categoria"
     )
     private GroupBeanImpl obj_categoria = null;
@@ -149,6 +148,15 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
     )
     private String nombre_cat;
 
+    @Expose
+    @MethodMetaInformation(
+            UltraShortName = "Des.",
+            ShortName = "Descripción",
+            Description = "Descripción de la categoría",
+            Type = MetaEnum.FieldType.String
+    )
+    private String descripcion_cat;
+
     //COMENTARIO
     @Expose(serialize = false)
     @MethodMetaInformation(
@@ -156,7 +164,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             ShortName = "Iden. de Comentario",
             Description = "Identificador de Comentario",
             IsIdForeignKey = true,
-            ReferencesTable = "v",
+            ReferencesTable = "comentario",
             Type = MetaEnum.FieldType.Integer
     )
     private Integer id_comentario = 0;
@@ -188,7 +196,7 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
             Description = "Nombre del autor del comentario",
             Type = MetaEnum.FieldType.String
     )
-    private String autor_com;
+    private String nombreautor;
 
     public Integer getId_documento() {
         return id_documento;
@@ -198,44 +206,44 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
         this.id_documento = id_documento;
     }
 
-    public String getTitulo_doc() {
-        return titulo_doc;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTitulo_doc(String titulo_doc) {
-        this.titulo_doc = titulo_doc;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public String getContenido_doc() {
-        return contenido_doc;
+    public String getEntrada() {
+        return entrada;
     }
 
-    public void setContenido_doc(String contenido_doc) {
-        this.contenido_doc = contenido_doc;
+    public void setEntrada(String entrada) {
+        this.entrada = entrada;
     }
 
-    public Date getAlta_doc() {
-        return alta_doc;
+    public Date getAlta() {
+        return alta;
     }
 
-    public void setAlta_doc(Date alta_doc) {
-        this.alta_doc = alta_doc;
+    public void setAlta(Date alta) {
+        this.alta = alta;
     }
 
-    public Integer getHits_doc() {
-        return hits_doc;
+    public Integer getHits() {
+        return hits;
     }
 
-    public void setHits_doc(Integer hits_doc) {
-        this.hits_doc = hits_doc;
+    public void setHits(Integer hits) {
+        this.hits = hits;
     }
 
-    public String getEtiquetas_doc() {
-        return etiquetas_doc;
+    public String getEtiquetas() {
+        return etiquetas;
     }
 
-    public void setEtiquetas_doc(String etiquetas_doc) {
-        this.etiquetas_doc = etiquetas_doc;
+    public void setEtiquetas(String etiquetas) {
+        this.etiquetas = etiquetas;
     }
 
     public Integer getId_categoria() {
@@ -262,6 +270,14 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
         this.nombre_cat = nombre_cat;
     }
 
+    public String getDescripcion_cat() {
+        return descripcion_cat;
+    }
+
+    public void setDescripcion_cat(String descripcion_cat) {
+        this.descripcion_cat = descripcion_cat;
+    }
+
     public Integer getId_comentario() {
         return id_comentario;
     }
@@ -286,12 +302,12 @@ public class BlogBean extends BeanGenImpl implements BeanInterface {
         this.comentario = comentario;
     }
 
-    public String getAutor_com() {
-        return autor_com;
+    public String getNombreautor() {
+        return nombreautor;
     }
 
-    public void setAutor_com(String autor_com) {
-        this.autor_com = autor_com;
+    public void setNombreautor(String nombreautor) {
+        this.nombreautor = nombreautor;
     }
 
 }

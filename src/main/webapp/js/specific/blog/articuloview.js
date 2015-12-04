@@ -26,110 +26,27 @@
  * THE SOFTWARE.
  * 
  */
+
 var articuloView = function () {
-    var miarray;
-    var validados;
-    var cantidad;
 };
 
 articuloView.prototype = new viewModule();
-articuloView.prototype.getViewTemplate_func = function (strClass, jsonDataViewModule) {
-    cantidad = 0;
-    var div = "";
-    var divPintado = 0;
-    var tituloJSON;
-    var contenidoJSON;
-    var iteradorJ = 0;
-    var opcion = 0;
-    var newOpcion = 0;
-    var posicion = 0;
-    miarray = new Array(jsonDataViewModule.bean.message.length);
-    
-    for (var i = 0; i < jsonDataViewModule.bean.message.length; i++) {
-        if (divPintado == 0) {
-            //Titulo
-            tituloJSON = jsonDataViewModule.bean.message[i].titulo;
-            div += '<div>';
-            div += '<h3>';
-            div += tituloJSON;
-            div += "</h3>";
-            div += "</div>";
-            div += '<br>';
-            
-            //Contenido
-            contenidoJSON = jsonDataViewModule.bean.message[i].contenido;
-            div += '<div>';
-            div += '<p>';
-            div += contenidoJSON;
-            div += '</p>';
-            div += "</div>";
-            
-            //Etiquetas
-            etiquetasJSON = jsonDataViewModule.bean.message[i].etiquetas;
-            div += '<div>';
-            div += '<p>';
-            div += etiquetasJSON;
-            div += '</p>';
-            div += "</div>";
-            
-            
-            
-            divPintado++;
-        }
 
-        if (iteradorJ < jsonDataViewModule.bean.message.length - 1) {
-            iteradorJ = iteradorJ + 1;
-        }
+articuloView.prototype.render = function () {
+    if (jsonDataViewModule.status == 200) {
+        var entrada = "";
 
-        if (jsonDataViewModule.bean.message[i].id_pregunta !== jsonDataViewModule.bean.message[iteradorJ].id_pregunta) {
-            cuestionario += '<div class="pregunta">';
-            dataJSON = jsonDataViewModule.bean.message[i].descripcionPregunta;
-            cuestionario += dataJSON;
-            cuestionario += "</div>";
-            cuestionario += '<ul class="opciones">';
-            while (opcion >= 0) {
+        entrada += '<div class = "col-md-12 entradas">';
+        entrada += '<div class = "titulo">' + jsonDataViewModule.message.bean.message.titulo + '</div>' + '</br>';
+        entrada += '<div class = "contenido">' + jsonDataViewModule.message.bean.message.contenido + '</div>' + '</br>';
+        entrada += '<div class = "tags">' + jsonDataViewModule.message.bean.message.etiquetas + '</div>' + '</br>';
 
-                cuestionario += '<li><input type="radio" name="group' + i + '" value="' + jsonDataViewModule.bean.message[newOpcion].id_opcion + '">';
-                dataJSON = jsonDataViewModule.bean.message[newOpcion].descripcionOpcion;
-                cuestionario += dataJSON;
+        entrada += '</div>';
 
-                cuestionario += "</input></li>";
+        return  entrada;
 
-                newOpcion++;
-                opcion--;
-            }
-            cuestionario += "</ul>";
-            miarray[posicion] = "group" + i;
-            posicion++;
-            opcion = 0;
-        } else if (i === jsonDataViewModule.bean.message.length - 1) {
-            cuestionario += '<div class="pregunta">';
-            dataJSON = jsonDataViewModule.bean.message[i].descripcionPregunta;
-            cuestionario += dataJSON;
-            cuestionario += "</div>";
-            cuestionario += '<ul class="opciones">';
-            while (opcion >= 0) {
-
-                cuestionario += '<li><input type="radio" name="group' + i + '" value="' + jsonDataViewModule.bean.message[newOpcion].id_opcion + '">';
-                dataJSON = jsonDataViewModule.bean.message[newOpcion].descripcionOpcion;
-                cuestionario += dataJSON;
-
-                cuestionario += "</input></li>";
-
-                newOpcion++;
-                opcion--;
-            }
-            miarray[posicion] = "group" + i;
-            posicion++;
-        } else {
-            opcion++;
-        }
-        cantidad++;
     }
+    ;
 
-    cuestionario += '</br>';
-    cuestionario += '</br>';
-    cuestionario += '<input type="button" value="Enviar" id="enviarClick">';
-
-    return cuestionario;
 };
+
